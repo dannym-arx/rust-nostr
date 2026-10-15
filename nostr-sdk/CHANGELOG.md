@@ -35,6 +35,7 @@
 - Redesign `Client::try_connect_relay` API
 - Return `NotificationStream<T>` from client and relay `notifications()` methods instead of a boxed stream.
 - Remove `RelayStatus::Pending` and rename `RelayStatus::Terminated` to `RelayStatus::Idle` (https://github.com/nostrdevkit/nostr/pull/1491).
+- Return `SubscriptionData` from `Relay::subscriptions` and `Relay::subscription` instead of the filters. It also tells whether the current `REQ` was answered with `EOSE` and whether the relay closed the subscription.
 
 ### Changed
 
@@ -47,6 +48,7 @@
 - Add `LocalRelayBuilderNip42::relay_url` to make it possible to configure a custom `relay_url` for the nip42 challenge validation (https://github.com/nostrdevkit/nostr/pull/1476)
 - Add `LocalRelayBuilder::new_event_channel_size` for customizing the size of the channel used to notify new received events
 - Add opt-in receiver gap reporting with `NotificationStream::with_gaps()`.
+- Add `Relay::reissue_subscription` to queue `CLOSE` and `REQ` for a long-lived subscription as a single unit, so the relay sends its stored events again.
 
 ### Fixed
 

@@ -400,11 +400,11 @@ impl RelayPool {
             let relay_subscriptions = relay.subscriptions().await;
 
             // Iterate relay subscriptions and populate the general subscriptions map
-            for (id, list) in relay_subscriptions.into_iter() {
+            for (id, data) in relay_subscriptions.into_iter() {
                 subscriptions
                     .entry(id)
                     .or_default()
-                    .insert(url.clone(), list);
+                    .insert(url.clone(), data.into_filters());
             }
         }
 
@@ -421,8 +421,8 @@ impl RelayPool {
         // Iterate relays and populate filters
         for (url, relay) in relays.iter() {
             // try to get subscription by ID from the relay
-            if let Some(list) = relay.subscription(id).await {
-                filters.insert(url.clone(), list);
+            if let Some(data) = relay.subscription(id).await {
+                filters.insert(url.clone(), data.into_filters());
             }
         }
 
